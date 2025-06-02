@@ -20,6 +20,14 @@ git clone https://github.com/thalismind/ComfyUI-Blend-Nodes.git custom_nodes/Com
 
 Please see the example workflows in the `examples` directory for how to use the blend nodes in ComfyUI.
 
+Basic example:
+
+![Basic Example](examples/load_image.png)
+
+Mask blending example:
+
+![Mask Blending Example](examples/blend_mask.png)
+
 ### Available Nodes
 
 - `image/Blend Image`
