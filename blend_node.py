@@ -16,7 +16,7 @@ class BlendImageNode:
                     "grain_extract", "grain_merge", "divide", "overlay", "normal"
                 ], {"default": "soft_light"}),
                 "opacity": ("FLOAT", {
-                    "default": 0.7,
+                    "default": 1.0,
                     "min": 0.0,
                     "max": 1.0,
                     "step": 0.01
