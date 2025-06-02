@@ -1,6 +1,6 @@
 # ComfyUI Blend Image Nodes
 
-This repository contains a ComfyUI node for blending images using various blending modes.
+This repository contains a ComfyUI node for blending images using various blending modes. Can be used to watermark images, create overlays, or apply effects to images in a ComfyUI workflow.
 
 It allows you to combine two images with different blending techniques, such as normal, multiply, screen, overlay, and
 more.
