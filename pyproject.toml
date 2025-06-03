@@ -1,0 +1,16 @@
+[project]
+name = "blend-nodes"
+description = "This repository contains a ComfyUI node for blending images using various blending modes. Can be used to watermark images, create overlays, or apply effects to images in a ComfyUI workflow."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["pillow", "blend-modes"]
+
+[project.urls]
+Repository = "https://github.com/thalismind/ComfyUI-Blend-Nodes"
+#  Used by Comfy Registry https://registry.comfy.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-Blend-Nodes"
+Icon = ""
+includes = []
