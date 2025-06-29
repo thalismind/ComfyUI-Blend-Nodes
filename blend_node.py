@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from PIL import Image
 from blend_modes import soft_light, lighten_only, dodge, addition, darken_only, multiply, hard_light, difference, subtract, grain_extract, grain_merge, divide, overlay, normal
+import comfy.utils
 
 class BlendImageNode:
     @classmethod
@@ -107,6 +108,8 @@ class BlendImageNode:
         overlay_rgba = self.to_rgba(overlay_np)
 
         image_count = base_image.shape[0]
+        pbar = comfy.utils.ProgressBar(image_count)
+
         blended_images = []
         for i in range(image_count):
             base_np = base_image[i].cpu().numpy()
@@ -122,6 +125,8 @@ class BlendImageNode:
             blended = blend_fn(base_rgba, padded_overlay, opacity)
             blended_rgb = self.from_rgba(blended)
             blended_images.append(blended_rgb)
+
+            pbar.update(1)
 
         print(f"Stacking {len(blended_images)} images...")
         blended_tensor = torch.from_numpy(np.stack(blended_images)) # .unsqueeze(0)
