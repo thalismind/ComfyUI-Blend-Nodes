@@ -101,23 +101,30 @@ class BlendImageNode:
         }
         blend_fn = blend_functions.get(blend_mode, soft_light)
 
-        base_np = base_image[0].cpu().numpy()
+        # Prepare overlay image
         overlay_np = overlay_image[0].cpu().numpy()
-
-        base_h, base_w, _ = base_np.shape
         overlay_h, overlay_w, _ = overlay_np.shape
-
-        if overlay_h > base_h or overlay_w > base_w:
-            raise ValueError("Overlay image must be smaller than or equal to base image dimensions.")
-
-        base_rgba = self.to_rgba(base_np)
         overlay_rgba = self.to_rgba(overlay_np)
 
-        padded_overlay = self.pad_overlay_to_position(overlay_rgba, base_h, base_w, position)
+        image_count = base_image.shape[0]
+        blended_images = []
+        for i in range(image_count):
+            base_np = base_image[i].cpu().numpy()
 
-        blended = blend_fn(base_rgba, padded_overlay, opacity)
-        blended_rgb = self.from_rgba(blended)
-        blended_tensor = torch.from_numpy(blended_rgb).unsqueeze(0)
+            base_h, base_w, _ = base_np.shape
+
+            if overlay_h > base_h or overlay_w > base_w:
+                raise ValueError("Overlay image must be smaller than or equal to base image dimensions.")
+
+            base_rgba = self.to_rgba(base_np)
+            padded_overlay = self.pad_overlay_to_position(overlay_rgba, base_h, base_w, position)
+
+            blended = blend_fn(base_rgba, padded_overlay, opacity)
+            blended_rgb = self.from_rgba(blended)
+            blended_images.append(blended_rgb)
+
+        print(f"Stacking {len(blended_images)} images...")
+        blended_tensor = torch.from_numpy(np.stack(blended_images)) # .unsqueeze(0)
 
         return (blended_tensor,)
 
